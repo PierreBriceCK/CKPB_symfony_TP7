@@ -1,0 +1,18 @@
+<thead>
+    <tr>
+      <th scope="col">ID</th>
+        <th scope="col">Date de l'absence</th>
+          <th scope="col">L'absence est-elle justifié ?</th>
+      <th scope="col">La matière lors de l'absence</th>
+     
+    </tr>
+  </thead>
+ {% for absence in absences %}
+    <tr>
+        <td>{{ absence.id }}</td>
+        <td>{{ absence.date|date('d/m/Y') }}</td>
+        <td>{{ absence.justifiee ? 'Oui' : 'Non' }}</td>
+        <td>{{ absence.matiere }}</td>
+    </tr>
+{% endfor %}
+// à compléter 
