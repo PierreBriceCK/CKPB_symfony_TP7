@@ -37,9 +37,19 @@ class Etudiant
     #[ORM\Column(length: 20)]
     private ?string $Classe = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?classe $classe = null;
+
+    /**
+     * @var Collection<int, classe>
+     */
+    #[ORM\OneToMany(targetEntity: classe::class, mappedBy: 'etudiant')]
+    private Collection $Matiere;
+
     public function __construct()
     {
         $this->Absence = new ArrayCollection();
+        $this->Matiere = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +156,36 @@ class Etudiant
     public function setClasse(string $Classe): static
     {
         $this->Classe = $Classe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, classe>
+     */
+    public function getMatiere(): Collection
+    {
+        return $this->Matiere;
+    }
+
+    public function addMatiere(classe $matiere): static
+    {
+        if (!$this->Matiere->contains($matiere)) {
+            $this->Matiere->add($matiere);
+            $matiere->setEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatiere(classe $matiere): static
+    {
+        if ($this->Matiere->removeElement($matiere)) {
+            // set the owning side to null (unless already changed)
+            if ($matiere->getEtudiant() === $this) {
+                $matiere->setEtudiant(null);
+            }
+        }
 
         return $this;
     }

@@ -25,6 +25,9 @@ class Classe
     #[ORM\Column(length: 255)]
     private ?string $effectif_max = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Matiere')]
+    private ?Etudiant $etudiant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Classe
     public function setEffectifMax(string $effectif_max): static
     {
         $this->effectif_max = $effectif_max;
+
+        return $this;
+    }
+
+    public function getEtudiant(): ?Etudiant
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(?Etudiant $etudiant): static
+    {
+        $this->etudiant = $etudiant;
 
         return $this;
     }
